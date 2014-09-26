@@ -8,7 +8,7 @@ using System.Text;
 using System.Web.UI;
 using DSL_lib.FieldModel;
 using RazorEngine;
-
+using DSL_lib.Helper;
 public partial class WWW_index : Page
 {
     protected string test;
@@ -31,8 +31,10 @@ public partial class WWW_index : Page
     protected void Page_Load(object sender, EventArgs e)
     {
         var indexobj = FactoryHelper.Create(RouteMain) as Index;
-        string template = File.ReadAllText(Request.ApplicationPath + "View/Default/index.cshtml");
-        test = Razor.Parse(template, new {Name = indexobj.Test.InputName});
+        string strPath = Server.MapPath("./");
+        string template = File.ReadAllText(strPath + "WWW/View/Default/index.cshtml");
+//        test = Razor.Parse(template, new {Name = indexobj.Test.InputName});
+        test = Razor.Parse(template, new {Name = "xiaoxie"});
     }
 }
 

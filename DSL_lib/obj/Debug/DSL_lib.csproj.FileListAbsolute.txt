@@ -12,3 +12,17 @@ E:\jok-CODE\dsl\DSL_lib\bin\Debug\RazorEngine.xml
 E:\jok-CODE\dsl\DSL_lib\bin\Debug\System.Web.Razor.xml
 E:\jok-CODE\dsl\DSL_lib\obj\Debug\DSL_lib.dll
 E:\jok-CODE\dsl\DSL_lib\obj\Debug\DSL_lib.pdb
+F:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.dll.config
+F:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.dll
+F:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.pdb
+F:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.dll
+F:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.SqlServer.dll
+F:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.dll
+F:\GitHub\DslProject\DSL_lib\bin\Debug\System.Web.Razor.dll
+F:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.xml
+F:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.SqlServer.xml
+F:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.pdb
+F:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.xml
+F:\GitHub\DslProject\DSL_lib\bin\Debug\System.Web.Razor.xml
+F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.dll
+F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.pdb
