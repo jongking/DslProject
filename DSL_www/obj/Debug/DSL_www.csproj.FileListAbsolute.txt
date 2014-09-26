@@ -1,0 +1,7 @@
+E:\jok-CODE\dsl\DSL_www\bin\DSL_www.dll
+E:\jok-CODE\dsl\DSL_www\bin\DSL_www.pdb
+E:\jok-CODE\dsl\DSL_www\bin\DSL_lib.dll
+E:\jok-CODE\dsl\DSL_www\bin\DSL_lib.pdb
+E:\jok-CODE\dsl\DSL_www\obj\Debug\DSL_www.csprojResolveAssemblyReference.cache
+E:\jok-CODE\dsl\DSL_www\obj\Debug\DSL_www.dll
+E:\jok-CODE\dsl\DSL_www\obj\Debug\DSL_www.pdb

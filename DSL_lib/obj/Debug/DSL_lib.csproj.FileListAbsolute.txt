@@ -1,0 +1,14 @@
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\DSL_lib.dll.config
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\DSL_lib.dll
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\DSL_lib.pdb
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\EntityFramework.dll
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\EntityFramework.SqlServer.dll
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\RazorEngine.dll
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\System.Web.Razor.dll
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\EntityFramework.xml
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\EntityFramework.SqlServer.xml
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\RazorEngine.pdb
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\RazorEngine.xml
+E:\jok-CODE\dsl\DSL_lib\bin\Debug\System.Web.Razor.xml
+E:\jok-CODE\dsl\DSL_lib\obj\Debug\DSL_lib.dll
+E:\jok-CODE\dsl\DSL_lib\obj\Debug\DSL_lib.pdb
