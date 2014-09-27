@@ -6,6 +6,13 @@
         <title>@Model.M.GetTitle()</title>
         <link rel="stylesheet" href="/WWW/View/Default/css/bootstrap.css">
         <link rel="stylesheet" href="/WWW/View/Default/css/bootstrap-theme.css">
+        <!-- bsie css 补丁文件 -->
+        <!-- bsie 额外的 css 补丁文件 -->
+        <!--[if lte IE 6]>
+            <link rel="stylesheet" type="text/css" href="/WWW/View/Default/css/bootstrap-ie6.css">
+            <link rel="stylesheet" type="text/css" href="/WWW/View/Default/css/ie.css">
+        <![endif]-->
+
         <script src="/WWW/View/Default/js/jquery.min.js"></script>
         <script src="/WWW/View/Default/js/bootstrap.js"></script>
         <script src="/WWW/View/Default/js/ie-emulation-modes-warning.js"></script>
@@ -13,6 +20,10 @@
         <!--[if lt IE 9]>
             <script src="/WWW/View/Default/js/html5shiv.js"></script>
             <script src="/WWW/View/Default/js/respond.min.js"></script>
+        <![endif]-->
+        <!-- bsie js 补丁只在IE6中才执行 -->
+        <!--[if lte IE 6]>
+            <script type="text/javascript" src="/WWW/View/Default/js/bootstrap-ie.js"></script>
         <![endif]-->
     </head>
     <body>

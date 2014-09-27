@@ -1,0 +1,103 @@
+﻿@{ Layout = "_Layout"; }
+
+<style>
+    main {
+        bottom: 0;
+        left: 15px;
+        padding: 0;
+        position: absolute;
+        right: 15px;
+        top: 0;
+    }
+
+    .error-content {
+        display: table;
+        height: 100%;
+        margin: 0 auto;
+        max-width: 530px;
+        padding: 0;
+        text-align: center;
+    }
+
+    .error-details {
+        display: table-cell;
+        vertical-align: middle
+    }
+
+    .error-message {
+        display: inline-block;
+        margin-left: 10px;
+        position: relative;
+        top: -5px;
+        vertical-align: middle;
+    }
+
+    .error-code {
+        color: #979797;
+        font-size: 5.8em;
+        line-height: 0.9em;
+        margin: 0;
+    }
+
+    .error-description {
+        border: none;
+        color: #979797;
+        font-size: 1.4em;
+        font-weight: 300;
+        margin: 0;
+        padding: 0;
+    }
+
+    .suggest-links {
+        border-top: 1px dotted #eee;
+        color: #979797;
+        margin-top: 30px;
+        padding-top: 30px;
+        text-align: left;
+    }
+
+    .suggest-links li { margin-bottom: 4px; }
+
+    .suggest-links li .fa { margin-right: 6px; }
+
+    .suggest-links a { color: #979797; }
+
+    .suggest-links li:hover, .suggest-links a:hover { color: #da6426; }
+
+    .error-stack {
+        background-color: rgba(255, 255, 255, 0.3);
+        margin: 1em auto;
+        max-width: 800px;
+        padding: 2em;
+    }
+
+    .error-stack-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .error-stack-list li { display: block }
+
+    .error-stack-list li::before {
+        color: #BBB;
+        content: "\21AA";
+        display: inline-block;
+        font-size: 1.2em;
+        margin-right: 0.5em
+    }
+
+    .error-stack-function { font-weight: bold }
+</style>
+
+<main role="main" id="main">
+    <section class="error-content error-404 js-error-container">
+        <section class="error-details">
+            <section class="error-message">
+                <h1 class="error-code">404</h1>
+                <h2 class="error-description">Page Not Found</h2>
+                <h2><a class="error-description" href="/">返回首页</a></h2>
+            </section>
+        </section>
+    </section>
+</main>

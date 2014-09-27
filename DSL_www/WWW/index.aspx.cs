@@ -33,8 +33,16 @@ public partial class WWW_index : Page
         string routeMain = RouteMain;
         string routeAction = RouteAction;
         string routeId = RouteId;
-
-        var mainObj = FactoryHelper.Create(RouteMain) as DslClassBase;
+        DslClassBase mainObj;
+        try
+        {
+            mainObj = FactoryHelper.Create(RouteMain) as DslClassBase;
+        }
+        catch (TypeLoadException ex)
+        {
+            mainObj = FactoryHelper.Create("Error") as DslClassBase;
+            routeMain = "error";
+        }
 
         #region 编译_Layout.cshtml模版
 
@@ -83,25 +91,11 @@ public class Index : DslClassBase
     }
 }
 
-public class Member : DslClassBase
+public class Error : DslClassBase
 {
-    private readonly Password _pw;
-    private readonly Test _test;
-
-    public Member()
+    public Error()
     {
-        _pw = new Password("密码");
-        _test = new Test("姓名");
-    }
-
-    public Password Pw
-    {
-        get { return _pw; }
-    }
-
-    public Test Test
-    {
-        get { return _test; }
+        Pagelist.Add("error");
     }
 }
 
