@@ -1,15 +1,14 @@
 ﻿//using DSL_lib.Helper;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Web.UI;
 using DSL_lib.FieldModel;
 using RazorEngine;
-using DSL_lib.Helper;
+
 public partial class WWW_index : Page
 {
     protected string test;
@@ -31,11 +30,25 @@ public partial class WWW_index : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        var indexobj = FactoryHelper.Create(RouteMain) as Index;
-        string strPath = Server.MapPath("./");
-        string template = File.ReadAllText(strPath + "WWW/View/Default/index.cshtml");
-//        test = Razor.Parse(template, new {Name = indexobj.Test.InputName});
-        test = Razor.Parse(template, new {Name = "xiaoxie"});
+        string routeMain = RouteMain;
+        string routeAction = RouteAction;
+        string routeId = RouteId;
+
+        var mainObj = FactoryHelper.Create(RouteMain) as DslClassBase;
+
+        #region 编译_Layout.cshtml模版
+
+        string strPath = Server.MapPath("/");
+        string layout =
+            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, "_Layout"));
+        Razor.GetTemplate(layout, new {M = mainObj}, "_Layout");
+
+        #endregion
+
+        string template =
+            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, mainObj.GetPageMap(routeMain)));
+        //        test = Razor.Parse(template, new {Name = mainObj.Test.InputName});
+        test = Razor.Parse(template, new {M = mainObj});
     }
 }
 
@@ -98,11 +111,13 @@ public abstract class DslClassBase
     protected List<string> Pagelist = new List<string>();
     protected string SourcePath = "./View/Default/";
     private Hashtable _pageMap = new Hashtable();
+
     protected Hashtable PageMap
     {
         set { _pageMap = value; }
     }
-    protected string GetPageMap(string action)
+
+    public string GetPageMap(string action)
     {
         if (_pageMap.ContainsKey(action))
         {
@@ -111,15 +126,15 @@ public abstract class DslClassBase
         return action;
     }
 
-    protected DslClassBase()
-    {
-    }
-
     protected bool HasPageType(string pageType)
     {
         return Pagelist.Any(type => type == pageType);
     }
 
+    public string GetTitle()
+    {
+        return "还没有题目";
+    }
 
 //
 //    protected string GetHead()

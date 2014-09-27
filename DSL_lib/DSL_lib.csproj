@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="FieldModel\Field.cs" />
     <Compile Include="Helper\FactoryHelper.cs" />
-    <Compile Include="Helper\MyTemplateBase.cs" />
+    <Compile Include="Helper\GenHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
