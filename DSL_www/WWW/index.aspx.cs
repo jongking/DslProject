@@ -100,15 +100,20 @@ public class Error : DslClassBase
 }
 
 
-public abstract class DslClassBase
+public class DslClassBase
 {
     protected List<string> Pagelist = new List<string>();
-    protected string SourcePath = "./View/Default/";
-    private Hashtable _pageMap = new Hashtable();
+    protected string PageTitle = "还没有题目";
 
+    private Hashtable _pageMap = new Hashtable();
     protected Hashtable PageMap
     {
         set { _pageMap = value; }
+    }
+
+    public DslClassBase()
+    {
+
     }
 
     public string GetPageMap(string action)
@@ -127,9 +132,10 @@ public abstract class DslClassBase
 
     public string GetTitle()
     {
-        return "还没有题目";
+        return PageTitle;
     }
 
+    
 //
 //    protected string GetHead()
 //    {
