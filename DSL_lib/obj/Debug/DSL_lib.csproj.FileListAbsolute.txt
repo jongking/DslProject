@@ -27,3 +27,17 @@ F:\GitHub\DslProject\DSL_lib\bin\Debug\System.Web.Razor.xml
 F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.dll
 F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.pdb
 F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.csprojResolveAssemblyReference.cache
+G:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.dll.config
+G:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.dll
+G:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.pdb
+G:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.dll
+G:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.SqlServer.dll
+G:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.dll
+G:\GitHub\DslProject\DSL_lib\bin\Debug\System.Web.Razor.dll
+G:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.xml
+G:\GitHub\DslProject\DSL_lib\bin\Debug\EntityFramework.SqlServer.xml
+G:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.pdb
+G:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.xml
+G:\GitHub\DslProject\DSL_lib\bin\Debug\System.Web.Razor.xml
+G:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.dll
+G:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.pdb

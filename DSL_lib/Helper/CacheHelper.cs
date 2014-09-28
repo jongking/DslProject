@@ -22,6 +22,21 @@ namespace DSL_lib.Helper
         }
 
         /// <summary>
+        /// 获取当前应用程序指定CacheKey的Cache值
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        public static bool HasCache(string cacheKey)
+        {
+            var objCache = HttpRuntime.Cache;
+            if (objCache[cacheKey] == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// 设置当前应用程序指定CacheKey的Cache值
         /// </summary>
         /// <param name="cacheKey"></param>

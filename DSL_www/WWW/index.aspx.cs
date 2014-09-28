@@ -1,12 +1,11 @@
-﻿//using DSL_lib.Helper;
+﻿
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web.UI;
 using DSL_lib.FieldModel;
+using DSL_lib.Helper;
 using RazorEngine;
 
 public partial class WWW_index : Page
@@ -33,20 +32,21 @@ public partial class WWW_index : Page
         string routeMain = RouteMain;
         string routeAction = RouteAction;
         string routeId = RouteId;
+        string strPath = Server.MapPath("/");
+
         DslClassBase mainObj;
         try
         {
             mainObj = FactoryHelper.Create(RouteMain) as DslClassBase;
         }
-        catch (TypeLoadException ex)
+        catch (DslException dslExceptionex)
         {
-            mainObj = FactoryHelper.Create("Error") as DslClassBase;
-            routeMain = "error";
+            mainObj = FactoryHelper.Create("error") as DslClassBase;
+            routeAction = "index";
         }
 
         #region 编译_Layout.cshtml模版
 
-        string strPath = Server.MapPath("/");
         string layout =
             File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, "_Layout"));
         Razor.GetTemplate(layout, new {M = mainObj}, "_Layout");
@@ -54,7 +54,7 @@ public partial class WWW_index : Page
         #endregion
 
         string template =
-            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, mainObj.GetPageMap(routeMain)));
+            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, mainObj.GetPageMap(routeAction)));
         //        test = Razor.Parse(template, new {Name = mainObj.Test.InputName});
         test = Razor.Parse(template, new {M = mainObj});
     }
@@ -62,9 +62,29 @@ public partial class WWW_index : Page
 
 public class FactoryHelper
 {
-    public static Object Create(string classname)
+    /// <summary>
+    /// 组装错误页的语义模型
+    /// </summary>
+    private static void InitAll()
     {
-        return Activator.CreateInstance(null, classname).Unwrap();
+        var obj = CacheHelper.GetCache("error");
+        if (obj == null)
+        {
+            DslClassBase errormodel = new DslClassBase()
+            .SetTitle("错误页")
+            .AddPageMap("index", "error");
+            CacheHelper.SetCache("error", errormodel);
+        }
+    }
+
+    public static Object Create(string modelname)
+    {
+        var obj = CacheHelper.GetCache(modelname);
+        if (obj != null) return obj;
+        InitAll();
+        obj = CacheHelper.GetCache(modelname);
+        if (obj != null) return obj;
+        throw new DslException();
     }
 }
 
@@ -77,7 +97,6 @@ public class Index : DslClassBase
     {
         _pw = new Password("密码");
         _test = new Test("姓名");
-        Pagelist.Add("show");
     }
 
     public Password Pw
@@ -91,29 +110,16 @@ public class Index : DslClassBase
     }
 }
 
-public class Error : DslClassBase
-{
-    public Error()
-    {
-        Pagelist.Add("error");
-    }
-}
-
 
 public class DslClassBase
 {
-    protected List<string> Pagelist = new List<string>();
     protected string PageTitle = "还没有题目";
 
     private Hashtable _pageMap = new Hashtable();
+
     protected Hashtable PageMap
     {
         set { _pageMap = value; }
-    }
-
-    public DslClassBase()
-    {
-
     }
 
     public string GetPageMap(string action)
@@ -122,20 +128,30 @@ public class DslClassBase
         {
             return _pageMap[action].ToString();
         }
-        return action;
+        return "error";
     }
 
-    protected bool HasPageType(string pageType)
+    public string GetTitle(string action = "")
     {
-        return Pagelist.Any(type => type == pageType);
+        return action + PageTitle;
     }
 
-    public string GetTitle()
+    #region 连贯接口
+
+    public DslClassBase SetTitle(string title)
     {
-        return PageTitle;
+        PageTitle = title;
+        return this;
     }
 
-    
+    public DslClassBase AddPageMap(string action, string page)
+    {
+        _pageMap[action] = page;
+        return this;
+    }
+
+    #endregion
+
 //
 //    protected string GetHead()
 //    {
