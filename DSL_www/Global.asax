@@ -11,9 +11,9 @@
     void Application_Start(object sender, EventArgs e)
     {
         //路由设定
-        var defaults = new RouteValueDictionary { { "resource", "index" }, { "action", "default" }, { "id", "" } };
+        var defaults = new RouteValueDictionary { { "main", "Index" }, { "action", "" }, { "id", ""} };
         
-        RouteTable.Routes.MapPageRoute("default", "{resource}/{action}/{id}", "~/WWW/index.aspx", false, defaults);
+        RouteTable.Routes.MapPageRoute("default", "{main}/{action}/{id}", "~/WWW/index.aspx", false, defaults);
     }
 
     void Application_End(object sender, EventArgs e)
