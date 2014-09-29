@@ -12,9 +12,9 @@ public partial class WWW_index : Page
 {
     protected string test;
 
-    protected string RouteMain
+    protected string RouteResource
     {
-        get { return RouteData.Values["main"].ToString(); }
+        get { return RouteData.Values["resource"].ToString(); }
     }
 
     protected string RouteAction
@@ -29,27 +29,33 @@ public partial class WWW_index : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        string routeMain = RouteMain;
+        string routeResource = RouteResource;
         string routeAction = RouteAction;
         string routeId = RouteId;
         string strPath = Server.MapPath("/");
 
         DslClassBase mainObj;
+        DslClassBase layoutObj = null;
         try
         {
-            mainObj = FactoryHelper.Create(RouteMain) as DslClassBase;
+            //创建客户需要的资源(Resource)
+            mainObj = FactoryHelper.Create(routeResource) as DslClassBase;
+            layoutObj = FactoryHelper.Create("_layout") as DslClassBase;
+
+            //判断资源(Resource)有没有要求的动作(Action)
+            if (!mainObj.HasPageMap(routeAction)) { throw new DslException(); }
         }
         catch (DslException dslExceptionex)
         {
             mainObj = FactoryHelper.Create("error") as DslClassBase;
-            routeAction = "index";
+            routeAction = "default";
         }
 
         #region 编译_Layout.cshtml模版
 
         string layout =
             File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, "_Layout"));
-        Razor.GetTemplate(layout, new {M = mainObj}, "_Layout");
+        Razor.GetTemplate(layout, new { M = mainObj, L = layoutObj }, "_Layout");
 
         #endregion
 
@@ -60,21 +66,42 @@ public partial class WWW_index : Page
     }
 }
 
-public class FactoryHelper
+public static class FactoryHelper
 {
     /// <summary>
     /// 组装错误页的语义模型
     /// </summary>
     private static void InitAll()
     {
-        var obj = CacheHelper.GetCache("error");
-        if (obj == null)
+        if (!CacheHelper.HasCache("error"))
         {
-            DslClassBase errormodel = new DslClassBase()
+            DslClassBase model = new DslClassBase()
+            .SetResourceName("error")
             .SetTitle("错误页")
-            .AddPageMap("index", "error");
-            CacheHelper.SetCache("error", errormodel);
+            .AddPageMap("default", "error");
+            CacheModel(model);
         }
+        if (!CacheHelper.HasCache("_layout"))
+        {
+            DslClassBase model = new DslClassBase()
+            .SetResourceName("_layout")
+            .SetTitle("公共页")
+            .AddPageMap("default", "_Layout");
+            CacheModel(model);
+        }
+        if (!CacheHelper.HasCache("index"))
+        {
+            DslClassBase model = new DslClassBase()
+            .SetResourceName("index")
+            .SetTitle("主页")
+            .AddPageMap("default", "default");
+            CacheModel(model);
+        }
+    }
+
+    private static void CacheModel(DslClassBase model)
+    {
+        CacheHelper.SetCache(model.ResourceName, model);
     }
 
     public static Object Create(string modelname)
@@ -113,10 +140,15 @@ public class Index : DslClassBase
 
 public class DslClassBase
 {
-    protected string PageTitle = "还没有题目";
+    // 记录资源名(Resource)
+    private string _resourceName;
+    public string ResourceName
+    {
+        get { return _resourceName; }
+    }
 
+    // 记录动作(Action)到页面(模板)的映射
     private Hashtable _pageMap = new Hashtable();
-
     protected Hashtable PageMap
     {
         set { _pageMap = value; }
@@ -131,16 +163,28 @@ public class DslClassBase
         return "error";
     }
 
+    public bool HasPageMap(string action)
+    {
+        return _pageMap.ContainsKey(action);
+    }
+
+    private string _pageTitle = "还没有题目";
     public string GetTitle(string action = "")
     {
-        return action + PageTitle;
+        return action + _pageTitle;
     }
 
     #region 连贯接口
 
+    public DslClassBase SetResourceName(string resname)
+    {
+        _resourceName = resname;
+        return this;
+    }
+
     public DslClassBase SetTitle(string title)
     {
-        PageTitle = title;
+        _pageTitle = title;
         return this;
     }
 
