@@ -26,7 +26,6 @@ F:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.xml
 F:\GitHub\DslProject\DSL_lib\bin\Debug\System.Web.Razor.xml
 F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.dll
 F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.pdb
-F:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.csprojResolveAssemblyReference.cache
 G:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.dll.config
 G:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.dll
 G:\GitHub\DslProject\DSL_lib\bin\Debug\DSL_lib.pdb

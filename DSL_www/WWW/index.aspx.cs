@@ -35,34 +35,42 @@ public partial class WWW_index : Page
         string strPath = Server.MapPath("/");
 
         DslClassBase mainObj;
-        DslClassBase layoutObj = null;
+        DslClassBase layoutObj = FactoryHelper.Create("_null") as DslClassBase;
         try
         {
             //创建客户需要的资源(Resource)
             mainObj = FactoryHelper.Create(routeResource) as DslClassBase;
-            layoutObj = FactoryHelper.Create("_layout") as DslClassBase;
+            if (mainObj.GetLayout() != "")
+            {
+                layoutObj = FactoryHelper.Create(mainObj.GetLayout()) as DslClassBase;
+            }
 
             //判断资源(Resource)有没有要求的动作(Action)
             if (!mainObj.HasPageMap(routeAction)) { throw new DslException(); }
+            if (!layoutObj.HasPageMap(routeAction)) { throw new DslException(); }
         }
         catch (DslException dslExceptionex)
         {
             mainObj = FactoryHelper.Create("error") as DslClassBase;
+            if (mainObj.GetLayout() != "")
+            {
+                layoutObj = FactoryHelper.Create(mainObj.GetLayout()) as DslClassBase;
+            }
             routeAction = "default";
         }
 
         #region 编译_Layout.cshtml模版
-
+        
         string layout =
-            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, "_Layout"));
-        Razor.GetTemplate(layout, new { M = mainObj, L = layoutObj }, "_Layout");
+            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, layoutObj.GetPageMap(routeAction)));
+        Razor.GetTemplate(layout, new { M = mainObj, L = layoutObj }, layoutObj.ResourceName);
 
         #endregion
 
         string template =
             File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, mainObj.GetPageMap(routeAction)));
         //        test = Razor.Parse(template, new {Name = mainObj.Test.InputName});
-        test = Razor.Parse(template, new {M = mainObj});
+        test = Razor.Parse(template, new { M = mainObj, L = layoutObj });
     }
 }
 
@@ -73,15 +81,23 @@ public static class FactoryHelper
     /// </summary>
     private static void InitAll()
     {
-        if (!CacheHelper.HasCache("error"))
+        if (!CheckCache("_null"))
         {
             DslClassBase model = new DslClassBase()
-            .SetResourceName("error")
-            .SetTitle("错误页")
-            .AddPageMap("default", "error");
+            .SetResourceName("_null")
+            .SetTitle("")
+            .AddPageMap("default", "_null");
             CacheModel(model);
         }
-        if (!CacheHelper.HasCache("_layout"))
+        if (!CheckCache("error"))
+        {
+            DslClassBase model = new DslClassBase()
+                .SetResourceName("error")
+                .SetTitle("错误页")
+                .AddPageMap("default", "error");
+            CacheModel(model);
+        }
+        if (!CheckCache("_layout"))
         {
             DslClassBase model = new DslClassBase()
             .SetResourceName("_layout")
@@ -89,7 +105,7 @@ public static class FactoryHelper
             .AddPageMap("default", "_Layout");
             CacheModel(model);
         }
-        if (!CacheHelper.HasCache("index"))
+        if (!CheckCache("index"))
         {
             DslClassBase model = new DslClassBase()
             .SetResourceName("index")
@@ -97,6 +113,11 @@ public static class FactoryHelper
             .AddPageMap("default", "default");
             CacheModel(model);
         }
+    }
+
+    private static bool CheckCache(string modelname)
+    {
+        return CacheHelper.HasCache(modelname);
     }
 
     private static void CacheModel(DslClassBase model)
@@ -174,6 +195,12 @@ public class DslClassBase
         return action + _pageTitle;
     }
 
+    private string _pageLayout = "_layout";
+    public string GetLayout()
+    {
+        return _pageLayout;
+    }
+
     #region 连贯接口
 
     public DslClassBase SetResourceName(string resname)
@@ -185,6 +212,12 @@ public class DslClassBase
     public DslClassBase SetTitle(string title)
     {
         _pageTitle = title;
+        return this;
+    }
+
+    public DslClassBase SetLayout(string layout)
+    {
+        _pageLayout = layout;
         return this;
     }
 
