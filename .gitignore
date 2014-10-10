@@ -1,3 +1,4 @@
 # git ignore file
 
 DSL.v11.suo
+DSL_lib/obj/Debug/DSL_lib.csprojResolveAssemblyReference.cache
