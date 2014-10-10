@@ -54,7 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FieldModel\DefaultPlug.cs" />
     <Compile Include="FieldModel\Field.cs" />
+    <Compile Include="FieldModel\IPlug.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\DslException.cs" />
     <Compile Include="Helper\GenHelper.cs" />

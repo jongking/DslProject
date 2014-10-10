@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace DSL_lib.FieldModel
 {
-    public abstract class Field
+    public class Field
     {
         protected string Container = "";
+        protected IList<IPlug> Plugs = null; 
+
         /// <summary>
         /// 将字段的内容显示到页面中
         /// </summary>
@@ -17,29 +19,27 @@ namespace DSL_lib.FieldModel
         {
             return Container;
         }
-    }
 
-    public class Test
-    {
-        private string _inputName;
-        public string InputName
+        public Field()
         {
-            get { return _inputName; }
-            set { _inputName = value; }
         }
 
-        public Test(string inputName)
+        public void Init()
         {
-            InputName = inputName;
+            RenderContainer();
         }
-    }
 
-    public class Password : Test
-    {
-        public Password(string inputName)
-            : base(inputName)
+        private void RenderContainer()
         {
-            InputName = inputName;
+            foreach (var plug in Plugs)
+            {
+                Container = plug.RenderFiled(Container);
+            }
+        }
+
+        public void AddPlug(IPlug plug)
+        {
+            Plugs.Add(plug);
         }
     }
 }
