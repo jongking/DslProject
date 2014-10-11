@@ -8,9 +8,8 @@ namespace DSL_lib.FieldModel
 {
     class LablePlug : IPlug
     {
-        public string RenderFiled(string contant)
+        public void Init(Field field)
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FieldModel\DefaultField.cs" />
     <Compile Include="FieldModel\DefaultPlug.cs" />
     <Compile Include="FieldModel\Field.cs" />
     <Compile Include="FieldModel\IPlug.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Web.UI;
 using DSL_lib.FieldModel;
@@ -108,9 +109,20 @@ public static class FactoryHelper
             DslClassBase model = new DslClassBase()
             .SetResourceName("index")
             .SetTitle("主页")
-            .AddPageMap("default", "default");
+            .AddPageMap("default", "default")
+            .AddField
+            (
+                new DivField("form-group")
+                    .AddPlug(new LabelField("Email address", "for=\"exampleInputEmail1\""))
+                    .AddPlug(new InputTextField("exampleInputEmail1", "form-control", "email", "placeholder=\"Enter email\""))
+            );
             CacheModel(model);
         }
+
+        //    <div class="form-group">
+        //            <label for="exampleInputEmail1">Email address</label>
+        //            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+        //        </div>
     }
 
     private static bool CheckCache(string modelname)
@@ -133,28 +145,28 @@ public static class FactoryHelper
         throw new DslException();
     }
 }
-
-public class Index : DslClassBase
-{
-    private readonly Password _pw;
-    private readonly Test _test;
-
-    public Index()
-    {
-        _pw = new Password("密码");
-        _test = new Test("姓名");
-    }
-
-    public Password Pw
-    {
-        get { return _pw; }
-    }
-
-    public Test Test
-    {
-        get { return _test; }
-    }
-}
+//
+//public class Index : DslClassBase
+//{
+//    private readonly Password _pw;
+//    private readonly Test _test;
+//
+//    public Index()
+//    {
+//        _pw = new Password("密码");
+//        _test = new Test("姓名");
+//    }
+//
+//    public Password Pw
+//    {
+//        get { return _pw; }
+//    }
+//
+//    public Test Test
+//    {
+//        get { return _test; }
+//    }
+//}
 
 
 public class DslClassBase
@@ -166,20 +178,25 @@ public class DslClassBase
         get { return _resourceName; }
     }
 
+    // 记录字段信息(用于取代view和control)
+    private IList<Field> _fields = new List<Field>();
+    public IList<Field> Fields
+    {
+        get { return _fields; }
+    }
+
     // 记录动作(Action)到页面(模板)的映射
-    private Hashtable _pageMap = new Hashtable();
-    protected Hashtable PageMap
+    private Dictionary<string, string> _pageMap = new Dictionary<string, string>();
+    protected Dictionary<string, string> PageMap
     {
         set { _pageMap = value; }
     }
 
+    
+
     public string GetPageMap(string action)
     {
-        if (_pageMap.ContainsKey(action))
-        {
-            return _pageMap[action].ToString();
-        }
-        return "error";
+        return _pageMap.ContainsKey(action) ? _pageMap[action] : "error";
     }
 
     public bool HasPageMap(string action)
@@ -225,6 +242,11 @@ public class DslClassBase
         return this;
     }
 
+    public DslClassBase AddField(Field field)
+    {
+        _fields.Add(field);
+        return this;
+    }
     #endregion
 
 //
