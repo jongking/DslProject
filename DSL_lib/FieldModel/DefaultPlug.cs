@@ -8,7 +8,7 @@ namespace DSL_lib.FieldModel
 {
     class LablePlug : IPlug
     {
-        public void Init(Field field)
+        public void InitPlug(Field field)
         {
         }
     }

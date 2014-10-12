@@ -5,12 +5,11 @@ namespace DSL_lib.FieldModel
     public class Field : IPlug
     {
         protected IList<IPlug> Plugs = new List<IPlug>();
-        private Dictionary<string, string> _attribute = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _attribute = new Dictionary<string, string>();
 
         public Dictionary<string, string> Attribute
         {
             get { return _attribute; }
-            set { _attribute = value; }
         }
 
         /// <summary>
@@ -41,12 +40,13 @@ namespace DSL_lib.FieldModel
             return Attribute.ContainsKey(key) ? Attribute[key] : "";
         }
 
-        private void InitPlugs()
+        public Field InitPlugs()
         {
             foreach (var plug in Plugs)
             {
-                plug.Init(this);
+                plug.InitPlug(this);
             }
+            return this;
         }
 
         public Field AddPlug(IPlug plug)
@@ -55,12 +55,12 @@ namespace DSL_lib.FieldModel
             return this;
         }
 
-        public string A(string key)
+        private string A(string key)
         {
             return GetAttribute(key);
         }
 
-        public string A(string key, string attrName)
+        private string A(string key, string attrName)
         {
             string attr = GetAttribute(key);
             return attr.Length > 0 ? string.Format("{0}='{1}'", attrName, attr) : "";
@@ -78,7 +78,7 @@ namespace DSL_lib.FieldModel
             return this;
         }
 
-        public void Init(Field field)
+        public virtual void InitPlug(Field field)
         {
         }
 

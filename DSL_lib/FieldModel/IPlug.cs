@@ -8,6 +8,6 @@ namespace DSL_lib.FieldModel
 {
     public interface IPlug
     {
-        void Init(Field field);
+        void InitPlug(Field field);
     }
 }

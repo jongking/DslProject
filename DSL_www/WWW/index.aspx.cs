@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Web.UI;
 using DSL_lib.FieldModel;
 using DSL_lib.Helper;
@@ -33,6 +34,8 @@ public partial class WWW_index : Page
         string routeId = RouteId;
         string strPath = Server.MapPath("/");
 
+        RazorHelper helper = new RazorHelper();
+
         DslClassBase mainObj;
         DslClassBase layoutObj = FactoryHelper.Create("_null") as DslClassBase;
         try
@@ -62,14 +65,14 @@ public partial class WWW_index : Page
         
         string layout =
             File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, layoutObj.GetPageMap(routeAction)));
-        Razor.GetTemplate(layout, new { M = mainObj, L = layoutObj }, layoutObj.ResourceName);
+        Razor.GetTemplate(layout, new { M = mainObj, L = layoutObj, Help = helper }, layoutObj.ResourceName);
 
         #endregion
 
         string template =
             File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, mainObj.GetPageMap(routeAction)));
         //        test = Razor.Parse(template, new {Name = mainObj.Test.InputName});
-        test = Razor.Parse(template, new { M = mainObj, L = layoutObj });
+        test = Razor.Parse(template, new { M = mainObj, L = layoutObj, Help = helper });
     }
 }
 
@@ -115,14 +118,10 @@ public static class FactoryHelper
                 new DivField("form-group")
                     .AddPlug(new LabelField("Email address", "for=\"exampleInputEmail1\""))
                     .AddPlug(new InputTextField("exampleInputEmail1", "form-control", "email", "placeholder=\"Enter email\""))
+                    .InitPlugs()
             );
             CacheModel(model);
         }
-
-        //    <div class="form-group">
-        //            <label for="exampleInputEmail1">Email address</label>
-        //            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        //        </div>
     }
 
     private static bool CheckCache(string modelname)
@@ -192,7 +191,15 @@ public class DslClassBase
         set { _pageMap = value; }
     }
 
-    
+    public string RenderFields()
+    {
+        var sb = new StringBuilder();
+        foreach (var field in Fields)
+        {
+            sb.Append(field.Html());
+        }
+        return sb.ToString();
+    }
 
     public string GetPageMap(string action)
     {

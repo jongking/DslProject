@@ -12,6 +12,11 @@
             SetAttr("tag", "span")
                 .SetAttr("innerhtml", label);
         }
+
+        public override void InitPlug(Field field)
+        {
+            field.AddAttr("innerhtml", Html());
+        }
     }
 
     public class InputTextField : Field
@@ -32,6 +37,11 @@
                 .SetAttr("selfclose", "true");
             return this;
         }
+
+        public override void InitPlug(Field field)
+        {
+            field.AddAttr("innerhtml", Html());
+        }
     }
 
     public class LabelField : Field
@@ -51,6 +61,11 @@
             SetAttr("tag", "label");
             return this;
         }
+
+        public override void InitPlug(Field field)
+        {
+            field.AddAttr("innerhtml", Html());
+        }
     }
 
     public class DivField : Field
@@ -67,8 +82,13 @@
 
         private DivField SelfInit()
         {
-            SetAttr("tag", "label");
+            SetAttr("tag", "div");
             return this;
+        }
+
+        public override void InitPlug(Field field)
+        {
+            field.AddAttr("innerhtml", Html());
         }
     }
 }

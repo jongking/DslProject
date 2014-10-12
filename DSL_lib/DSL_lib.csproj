@@ -61,6 +61,7 @@
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\DslException.cs" />
     <Compile Include="Helper\GenHelper.cs" />
+    <Compile Include="Helper\RazorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
