@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace DSL_lib.FieldModel
 {
-    public interface IPlug
+    /// <summary>
+    /// 插件接口
+    /// </summary>
+    public interface IPlug<FieldClass>
     {
-        void InitPlug(Field field);
+        void InitPlug(FieldClass field);
+
+        void Handle(string eventName, FieldClass field);
     }
 }
