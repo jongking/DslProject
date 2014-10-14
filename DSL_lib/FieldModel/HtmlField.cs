@@ -1,4 +1,6 @@
-﻿namespace DSL_lib.FieldModel
+﻿using System.Collections.Generic;
+
+namespace DSL_lib.FieldModel
 {
     public enum HtmlCell
     {
@@ -14,32 +16,19 @@
         自闭合,
     }
 
-    public class HtmlField : Field
+    public class HtmlField : Field, IPlug<HtmlField>
     {
-        private string A(HtmlCell key)
-        {
-            return GetAttribute((int)key);
-        }
+        protected IList<IPlug<HtmlField>>  Plugs = new List<IPlug<HtmlField>>();
 
-        private string A(HtmlCell key, string attrName)
+        /// <summary>
+        /// 添加插件
+        /// </summary>
+        /// <param name="plug"></param>
+        /// <returns></returns>
+        public HtmlField AddPlugs(IPlug<HtmlField> plug)
         {
-            string attr = GetAttribute((int)key);
-            return attr.Length > 0 ? string.Format("{0}='{1}'", attrName, attr) : "";
-        }
-
-        protected string GetAttribute(HtmlCell key)
-        {
-            return GetAttribute((int)key);
-        }
-
-        protected Field SetAttr(HtmlCell key, string value)
-        {
-            return SetAttr((int)key, value);
-        }
-
-        protected Field AddAttr(HtmlCell key, string value)
-        {
-            return AddAttr((int)key, value);
+            Plugs.Add(plug);
+            return this;
         }
 
         /// <summary>
@@ -62,6 +51,42 @@
                     A(HtmlCell.Other));
             }
             return result;
+        }
+
+        protected string GetAttribute(HtmlCell key)
+        {
+            return GetAttribute((int)key);
+        }
+
+        protected Field SetAttr(HtmlCell key, string value)
+        {
+            return SetAttr((int)key, value);
+        }
+
+        protected Field AddAttr(HtmlCell key, string value)
+        {
+            return AddAttr((int)key, value);
+        }
+
+        private string A(HtmlCell key)
+        {
+            return GetAttribute((int)key);
+        }
+
+        private string A(HtmlCell key, string attrName)
+        {
+            string attr = GetAttribute((int)key);
+            return attr.Length > 0 ? string.Format("{0}='{1}'", attrName, attr) : "";
+        }
+
+        public void InitPlug(HtmlField field)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Handle(string eventName, HtmlField field)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

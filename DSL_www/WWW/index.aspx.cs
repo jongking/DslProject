@@ -115,9 +115,9 @@ public static class FactoryHelper
             .AddPageMap("default", "default")
             .AddField
             (
-                new DivField("form-group")
-                    .AddPlug(new LabelField("Email address", "for=\"exampleInputEmail1\""))
-                    .AddPlug(new InputTextField("exampleInputEmail1", "form-control", "email", "placeholder=\"Enter email\""))
+                new DivPlug("form-group")
+                    .AddPlug(new LabelPlug("Email address", "for=\"exampleInputEmail1\""))
+                    .AddPlug(new InputTextPlug("exampleInputEmail1", "form-control", "email", "placeholder=\"Enter email\""))
                     .InitPlugs()
             );
             CacheModel(model);
