@@ -9,10 +9,10 @@ namespace DSL_lib.FieldModel
     /// <summary>
     /// 插件接口
     /// </summary>
-    public interface IPlug<FieldClass>
+    public interface IPlug<FieldClass, Event>
     {
         void InitPlug(FieldClass field);
 
-        void Handle(string eventName, FieldClass field);
+        void Handle(Event eventName, FieldClass field);
     }
 }

@@ -38,7 +38,7 @@ namespace DSL_lib.FieldModel
             return this;
         }
 
-        public virtual string Write()
+        public virtual string Write(string eventName)
         {
             return _outPutStream;
         }

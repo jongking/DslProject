@@ -57,7 +57,7 @@
     <Compile Include="FieldModel\DefaultField.cs" />
     <Compile Include="FieldModel\DefaultPlug.cs" />
     <Compile Include="FieldModel\Field.cs" />
-    <Compile Include="FieldModel\HtmlField.cs" />
+    <Compile Include="FieldModel\WebField.cs" />
     <Compile Include="FieldModel\IPlug.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\DslException.cs" />
