@@ -40,4 +40,3 @@ G:\GitHub\DslProject\DSL_lib\bin\Debug\RazorEngine.xml
 G:\GitHub\DslProject\DSL_lib\bin\Debug\System.Web.Razor.xml
 G:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.dll
 G:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.pdb
-G:\GitHub\DslProject\DSL_lib\obj\Debug\DSL_lib.csprojResolveAssemblyReference.cache

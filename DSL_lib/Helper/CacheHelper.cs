@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,9 @@ using System;
 
 namespace DSL_lib.Helper
 {
-    public class CacheHelper
+    public static class CacheHelper
     {
+        public static readonly Hashtable HashCache = new Hashtable();
         /// <summary>
         /// 获取当前应用程序指定CacheKey的Cache值
         /// </summary>
@@ -17,7 +19,7 @@ namespace DSL_lib.Helper
         /// <returns></returns>
         public static object GetCache(string cacheKey)
         {
-            var objCache = HttpRuntime.Cache;
+            var objCache = HashCache;
             return objCache[cacheKey];
         }
 
@@ -28,12 +30,8 @@ namespace DSL_lib.Helper
         /// <returns></returns>
         public static bool HasCache(string cacheKey)
         {
-            var objCache = HttpRuntime.Cache;
-            if (objCache[cacheKey] == null)
-            {
-                return false;
-            }
-            return true;
+            var objCache = HashCache;
+            return objCache[cacheKey] != null;
         }
 
         /// <summary>
@@ -43,8 +41,8 @@ namespace DSL_lib.Helper
         /// <param name="objObject"></param>
         public static void SetCache(string cacheKey, object objObject)
         {
-            var objCache = HttpRuntime.Cache;
-            objCache.Insert(cacheKey, objObject);
+            var objCache = HashCache;
+            objCache.Add(cacheKey, objObject);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace DSL_lib.FieldModel
     {
         Default,
         NoThisEvent,
+        GetMainMenu
     }
 
     public class WebField : Field
@@ -63,6 +64,8 @@ namespace DSL_lib.FieldModel
             {
                 case "default":
                     return DslEvent.Default;
+                case "mainmenu":
+                    return DslEvent.GetMainMenu;
                 default:
                     return DslEvent.NoThisEvent;
             }

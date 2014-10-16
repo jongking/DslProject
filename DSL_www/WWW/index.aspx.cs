@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web.UI;
+using DSL_lib;
 using DSL_lib.FieldModel;
 using DSL_lib.Helper;
 using RazorEngine;
@@ -92,7 +93,7 @@ public static class FactoryHelper
         {
             DslClassBase model = new DslClassBase()
                 .SetResourceName("_null")
-                .SetTitle("")
+                .SetTitle("空白公共页")
                 .AddPageMap("default", "_null");
             CacheModel(model);
         }
@@ -121,7 +122,7 @@ public static class FactoryHelper
                 .AddField
                 (
                     new WebField()
-                        .AddPlugs(new InputTextPlug())
+                        .AddPlugs(new MainPagePlug())
 //                    .AddPlug(new LabelPlug("Email address", "for=\"exampleInputEmail1\""))
 //                    .AddPlug(new InputTextPlug("exampleInputEmail1", "form-control", "email", "placeholder=\"Enter email\""))
 //                    .InitPlugs()
@@ -174,138 +175,3 @@ public static class FactoryHelper
 //    }
 //}
 
-
-public class DslClassBase
-{
-    // 记录资源名(Resource)
-    private readonly IList<Field> _fields = new List<Field>();
-    private string _pageLayout = "_layout";
-    private Dictionary<string, string> _pageMap = new Dictionary<string, string>();
-    private string _pageTitle = "还没有题目";
-    private string _resourceName;
-
-    public string ResourceName
-    {
-        get { return _resourceName; }
-    }
-
-    // 记录字段信息(用于取代view和control)
-
-    public IList<Field> Fields
-    {
-        get { return _fields; }
-    }
-
-    // 记录动作(Action)到页面(模板)的映射
-
-    protected Dictionary<string, string> PageMap
-    {
-        set { _pageMap = value; }
-    }
-
-    public string RenderFields(string eventname)
-    {
-        var sb = new StringBuilder();
-        foreach (Field field in Fields)
-        {
-            sb.Append(field.Write(eventname));
-        }
-        return sb.ToString();
-    }
-
-    public string GetPageMap(string action)
-    {
-        return _pageMap.ContainsKey(action) ? _pageMap[action] : "error";
-    }
-
-    public bool HasPageMap(string action)
-    {
-        return _pageMap.ContainsKey(action);
-    }
-
-    public string GetTitle(string action = "")
-    {
-        return action + _pageTitle;
-    }
-
-    public string GetLayout()
-    {
-        return _pageLayout;
-    }
-
-    #region 连贯接口
-
-    public DslClassBase SetResourceName(string resname)
-    {
-        _resourceName = resname;
-        return this;
-    }
-
-    public DslClassBase SetTitle(string title)
-    {
-        _pageTitle = title;
-        return this;
-    }
-
-    public DslClassBase SetLayout(string layout)
-    {
-        _pageLayout = layout;
-        return this;
-    }
-
-    public DslClassBase AddPageMap(string action, string page)
-    {
-        _pageMap[action] = page;
-        return this;
-    }
-
-    public DslClassBase AddField(Field field)
-    {
-        _fields.Add(field);
-        return this;
-    }
-
-    #endregion
-
-//
-//    protected string GetHead()
-//    {
-//        var resultBuilder = new StringBuilder();
-//        resultBuilder.Append(GetMetaSet() + "\n")
-//            .Append(GetCssStyle());
-//    }
-//
-//    protected string GetTitle()
-//    {
-//        return "还没有Title";
-//    }
-//
-//    protected string GetDocumentType()
-//    {
-//        return "<!DOCTYPE html>";
-//    }
-//
-//    protected string GetLanguage()
-//    {
-//        return "lang='zh-CN'";
-//    }
-//
-//    protected string GetCssStyle()
-//    {
-//        return string.Format("<link rel=\"stylesheet\" href=\"{0}css/bootstrap.min.css\">" + //新 Bootstrap 核心 CSS 文件
-//                             "<link rel=\"stylesheet\" href=\"{0}css/bootstrap-theme.min.css\">", SourcePath);
-//            //可选的Bootstrap主题文件（一般不用引入）
-//    }
-//
-//    protected string GetMetaSet()
-//    {
-//        return "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>" +
-//               "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">";
-//    }
-//
-//    protected string GetJavaScript()
-//    {
-//        return string.Format("<script src=\"{0}/js/jquery.min.js\"></script>" +
-//                             "<script src=\"{0}/js/bootstrap.min.js\"></script>", SourcePath);
-//    }
-}
