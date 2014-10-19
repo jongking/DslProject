@@ -43,6 +43,18 @@ namespace DSL_lib.FieldModel
             return base.Write("");
         }
 
+        protected Field SetAttr(int key, string value)
+        {
+            Attribute[key] = value;
+            return this;
+        }
+
+        protected Field AddAttr(int key, string value)
+        {
+            Attribute[key] = GetAttribute(key) + " " + value;
+            return this;
+        }
+
         public string GetAttribute(ContextCell key)
         {
             return GetAttribute((int) key);
@@ -70,6 +82,7 @@ namespace DSL_lib.FieldModel
                     return DslEvent.NoThisEvent;
             }
         }
+
 //        private string A(ContextCell key)
 //        {
 //            return GetAttribute((int)key);

@@ -119,6 +119,7 @@ public static class FactoryHelper
                 .SetResourceName("index")
                 .SetTitle("主页")
                 .AddPageMap("default", "default")
+                .AddPageMap("new", "new")
                 .AddField
                 (
                     new WebField()

@@ -7,7 +7,7 @@ namespace DSL_lib.FieldModel
     /// </summary>
     public class Field
     {
-//        protected IList<IPlug> Plugs = new List<IPlug>();
+        private DslClassBase _dslmodel = null;
 
         private readonly Dictionary<int, string> _attribute = new Dictionary<int, string>();
         protected Dictionary<int, string> Attribute
@@ -21,22 +21,17 @@ namespace DSL_lib.FieldModel
             set { _outPutStream = value; }
         }
 
+        public DslClassBase Dslmodel
+        {
+            get { return _dslmodel; }
+            set { _dslmodel = value; }
+        }
+
         protected string GetAttribute(int key)
         {
             return Attribute.ContainsKey(key) ? Attribute[key] : "";
         }
 
-        protected Field SetAttr(int key, string value)
-        {
-            Attribute[key] = value;
-            return this;
-        }
-
-        protected Field AddAttr(int key, string value)
-        {
-            Attribute[key] = GetAttribute(key) + " " + value;
-            return this;
-        }
 
         public virtual string Write(string eventName)
         {

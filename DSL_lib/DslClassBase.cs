@@ -30,7 +30,6 @@ namespace DSL_lib
         }
 
         // 记录动作(Action)到页面(模板)的映射
-
         protected Dictionary<string, string> PageMap
         {
             set { _pageMap = value; }
@@ -95,6 +94,7 @@ namespace DSL_lib
         public DslClassBase AddField(Field field)
         {
             _fields.Add(field);
+            field.Dslmodel = this;
             return this;
         }
 

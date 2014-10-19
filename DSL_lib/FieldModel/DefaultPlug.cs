@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DSL_lib.Helper;
 
@@ -28,6 +30,14 @@ namespace DSL_lib.FieldModel
 
     public class MainPagePlug : BasePlug
     {
+        public MainPagePlug()
+        {
+            this.AddMenuList("new", "新增")
+                .AddMenuList("modify", "修改")
+                .AddMenuList("delete", "删除")
+                .AddMenuList("search", "查询");
+        }
+
         public override void Handle(DslEvent eventName, WebField field)
         {
             switch (eventName)
@@ -41,22 +51,14 @@ namespace DSL_lib.FieldModel
             }
         }
 
-//        <ul class='nav navbar-nav'>
-//        <li class='active'><a href='#'>Link</a></li>
-//        <li><a href='#'>Link</a></li>
-//        <li class='dropdown'>
-//          <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Dropdown <span class='caret'></span></a>
-//          <ul class='dropdown-menu' role='menu'>
-//            <li class='active'><a href='#'>Action</a></li>
-//            <li><a href='#'>Another action</a></li>
-//            <li><a href='#'>Something else here</a></li>
-//            <li class='divider'></li>
-//            <li><a href='#'>Separated link</a></li>
-//            <li class='divider'></li>
-//            <li><a href='#'>One more separated link</a></li>
-//          </ul>
-//        </li>
-//      </ul>
+        public MainPagePlug AddMenuList(string from, string to)
+        {
+            _transactionlist.Add(from, to);
+            return this;
+        }
+
+        private Dictionary<string, string> _transactionlist = new Dictionary<string, string>();
+
         private void GetMainMenuHandle(WebField field)
         {
             var sb = new StringBuilder();
@@ -66,16 +68,29 @@ namespace DSL_lib.FieldModel
                 var dcb = (DslClassBase) model;
                 var title = dcb.GetTitle();
                 var pagelist = dcb.GetAllPageMapKey();
+                if (!HasPage(pagelist))
+                {
+                    continue;
+                }
                 sb.AppendFormat("<li class='dropdown'>" +
                                 "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>{0} <span class='caret'></span></a>" +
                                 "<ul class='dropdown-menu' role='menu'>", title);
                 foreach (var page in pagelist)
                 {
-                    sb.AppendFormat("<li><a href='#'>{0}</a></li>", page);                    
+                    if (_transactionlist.ContainsKey(page))
+                    {
+                        sb.AppendFormat("<li><a href='/{1}/{2}'>{0}</a></li>", _transactionlist[page], dcb.ResourceName, page);  
+                    }
                 }
                 sb.Append("</ul></li>");
             }
+            sb.Append("</ul>");
             field.OutPutStream = sb.ToString();
+        }
+
+        private bool HasPage(IEnumerable<string> pagelist)
+        {
+            return pagelist.Any(page => _transactionlist.ContainsKey(page));
         }
     }
 
