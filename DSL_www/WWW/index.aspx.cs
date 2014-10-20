@@ -37,11 +37,11 @@ public partial class WWW_index : Page
         var helper = new RazorHelper();
 
         DslClassBase mainObj;
-        var layoutObj = FactoryHelper.Create("_null") as DslClassBase;
+        var layoutObj = FactoryHelper.Create("_null");
         try
         {
             //创建客户需要的资源(Resource)
-            mainObj = FactoryHelper.Create(routeResource) as DslClassBase;
+            mainObj = FactoryHelper.Create(routeResource);
             if (mainObj.GetLayout() != "")
             {
                 layoutObj = FactoryHelper.Create(mainObj.GetLayout()) as DslClassBase;
@@ -59,10 +59,10 @@ public partial class WWW_index : Page
         }
         catch (DslException dslExceptionex)
         {
-            mainObj = FactoryHelper.Create("error") as DslClassBase;
+            mainObj = FactoryHelper.Create("error");
             if (mainObj.GetLayout() != "")
             {
-                layoutObj = FactoryHelper.Create(mainObj.GetLayout()) as DslClassBase;
+                layoutObj = FactoryHelper.Create(mainObj.GetLayout());
             }
             routeAction = "default";
         }
@@ -85,7 +85,7 @@ public partial class WWW_index : Page
 public static class FactoryHelper
 {
     /// <summary>
-    ///     组装错误页的语义模型
+    /// 组装的语义模型
     /// </summary>
     private static void InitAll()
     {
@@ -120,6 +120,8 @@ public static class FactoryHelper
                 .SetTitle("主页")
                 .AddPageMap("default", "default")
                 .AddPageMap("new", "new")
+                .AddPageMap("modify", "modify")
+                .AddPageMap("delete", "delete")
                 .AddField
                 (
                     new WebField()
@@ -134,20 +136,20 @@ public static class FactoryHelper
 
     private static bool CheckCache(string modelname)
     {
-        return CacheHelper.HasCache(modelname);
+        return DslCacheHelper.HasCache(modelname);
     }
 
     private static void CacheModel(DslClassBase model)
     {
-        CacheHelper.SetCache(model.ResourceName, model);
+        DslCacheHelper.SetCache(model.ResourceName, model);
     }
 
-    public static Object Create(string modelname)
+    public static DslClassBase Create(string modelname)
     {
-        object obj = CacheHelper.GetCache(modelname);
+        var obj = DslCacheHelper.GetCache(modelname);
         if (obj != null) return obj;
         InitAll();
-        obj = CacheHelper.GetCache(modelname);
+        obj = DslCacheHelper.GetCache(modelname);
         if (obj != null) return obj;
         throw new DslException();
     }

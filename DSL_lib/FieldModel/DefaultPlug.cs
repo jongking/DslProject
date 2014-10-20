@@ -17,14 +17,15 @@ namespace DSL_lib.FieldModel
             switch (eventName)
             {
                 case DslEvent.NoThisEvent:
-                    NoThisEventHandle(field);
+                    NoThisEventHandle(field, eventName);
                     break;
             }
         }
 
-        protected void NoThisEventHandle(WebField field)
+        protected void NoThisEventHandle(WebField field, DslEvent eventName)
         {
-            field.OutPutStream = "<script>location.href='./error'</script>";
+            field.OutPutStream = string.Format("<script>console.log('{1}: 没有处理 {0}')</script>", eventName.ToString(), field.Dslmodel.ResourceName);
+//            field.OutPutStream = "<script>location.href='./error'</script>";
         }
     }
 
@@ -62,24 +63,23 @@ namespace DSL_lib.FieldModel
         private void GetMainMenuHandle(WebField field)
         {
             var sb = new StringBuilder();
-            sb.Append("<ul class='nav navbar-nav'>");
-            foreach (var model in CacheHelper.HashCache.Values)
+            sb.Append("<ul id='menuDiv' class='nav navbar-nav'>");
+            foreach (var dcb in DslCacheHelper.HashCache.Values)
             {
-                var dcb = (DslClassBase) model;
                 var title = dcb.GetTitle();
                 var pagelist = dcb.GetAllPageMapKey();
                 if (!HasPage(pagelist))
                 {
                     continue;
                 }
-                sb.AppendFormat("<li class='dropdown'>" +
+                sb.AppendFormat("<li id='{1}-dropdown' class='dropdown'>" +
                                 "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>{0} <span class='caret'></span></a>" +
-                                "<ul class='dropdown-menu' role='menu'>", title);
+                                "<ul class='dropdown-menu' role='menu'>", title, dcb.ResourceName);
                 foreach (var page in pagelist)
                 {
                     if (_transactionlist.ContainsKey(page))
                     {
-                        sb.AppendFormat("<li><a href='/{1}/{2}'>{0}</a></li>", _transactionlist[page], dcb.ResourceName, page);  
+                        sb.AppendFormat("<li id='{2}-{1}-dropdown' onclick=\"GOTO('/{1}/{2}')\"><a href='#'>{0}</a></li>", _transactionlist[page], dcb.ResourceName, page);  
                     }
                 }
                 sb.Append("</ul></li>");
@@ -96,16 +96,6 @@ namespace DSL_lib.FieldModel
 
     public class InputTextPlug : BasePlug
     {
-//        public InputTextPlug()
-//        {
-//            SelfInit();
-//        }
-//
-//        public InputTextPlug(string id = "", string classname = "", string type = "", string other = "")
-//        {
-//            SelfInit().SetAttr("type", type).AddAttr("class", classname).SetAttr("id", id).SetAttr("other", other);
-//        }
-
         public override void Handle(DslEvent eventName, WebField field)
         {
             switch (eventName)
@@ -114,7 +104,7 @@ namespace DSL_lib.FieldModel
                     DefaultHandle(field);
                     break;
                 case DslEvent.NoThisEvent:
-                    NoThisEventHandle(field);
+                    base.Handle(eventName, field);
                     break;
             }
         }

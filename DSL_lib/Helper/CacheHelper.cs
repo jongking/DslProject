@@ -45,4 +45,38 @@ namespace DSL_lib.Helper
             objCache.Add(cacheKey, objObject);
         }
     }
+
+    public static class DslCacheHelper
+    {
+        public static readonly Dictionary<string, DslClassBase> HashCache = new Dictionary<string, DslClassBase>();
+        /// <summary>
+        /// 获取当前应用程序指定CacheKey的Cache值
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        public static DslClassBase GetCache(string cacheKey)
+        {
+            return !HasCache(cacheKey) ? null : HashCache[cacheKey];
+        }
+
+        /// <summary>
+        /// 获取当前应用程序指定CacheKey的Cache值
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        public static bool HasCache(string cacheKey)
+        {
+            return HashCache.ContainsKey(cacheKey);
+        }
+
+        /// <summary>
+        /// 设置当前应用程序指定CacheKey的Cache值
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="objObject"></param>
+        public static void SetCache(string cacheKey, DslClassBase objObject)
+        {
+            HashCache.Add(cacheKey, objObject);
+        }
+    }
 }
