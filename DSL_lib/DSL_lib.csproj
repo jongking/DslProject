@@ -55,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DslClassBase.cs" />
-    <Compile Include="FieldModel\DefaultField.cs" />
     <Compile Include="FieldModel\DefaultPlug.cs" />
     <Compile Include="FieldModel\Field.cs" />
     <Compile Include="FieldModel\WebField.cs" />

@@ -1,6 +1,9 @@
 ﻿
 @{
-    Layout = "_Layout";
+    Layout = Model.L.ResourceName;
 }
 
-<h2>title</h2>
+<form role="form">
+    @Model.Help.HtmlRaw(Model.M.RenderFields("newcontext"))
+</form>
+

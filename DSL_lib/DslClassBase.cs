@@ -41,6 +41,7 @@ namespace DSL_lib
             foreach (Field field in Fields)
             {
                 sb.Append(field.Write(eventname));
+                field.OutPutStream = "";
             }
             return sb.ToString();
         }

@@ -9,6 +9,7 @@ namespace DSL_lib.FieldModel
     public enum DslEvent
     {
         Default,
+        NewContext,
         NoThisEvent,
         GetMainMenu
     }
@@ -78,6 +79,8 @@ namespace DSL_lib.FieldModel
                     return DslEvent.Default;
                 case "mainmenu":
                     return DslEvent.GetMainMenu;
+                case "newcontext":
+                    return DslEvent.NewContext;
                 default:
                     return DslEvent.NoThisEvent;
             }

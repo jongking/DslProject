@@ -19,6 +19,7 @@ namespace DSL_lib.FieldModel
         public string OutPutStream
         {
             set { _outPutStream = value; }
+            get { return _outPutStream; }
         }
 
         public DslClassBase Dslmodel

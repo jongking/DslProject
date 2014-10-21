@@ -44,7 +44,7 @@ public partial class WWW_index : Page
             mainObj = FactoryHelper.Create(routeResource);
             if (mainObj.GetLayout() != "")
             {
-                layoutObj = FactoryHelper.Create(mainObj.GetLayout()) as DslClassBase;
+                layoutObj = FactoryHelper.Create(mainObj.GetLayout());
             }
 
             //判断资源(Resource)有没有要求的动作(Action)
@@ -52,7 +52,7 @@ public partial class WWW_index : Page
             {
                 throw new DslException();
             }
-            if (!layoutObj.HasPageMap(routeAction))
+            if (!layoutObj.HasPageMap("default"))
             {
                 throw new DslException();
             }
@@ -70,7 +70,7 @@ public partial class WWW_index : Page
         #region 编译_Layout.cshtml模版
 
         string layout =
-            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, layoutObj.GetPageMap(routeAction)));
+            File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, layoutObj.GetPageMap("default")));
         Razor.GetTemplate(layout, new {M = mainObj, L = layoutObj, Help = helper}, layoutObj.ResourceName);
 
         #endregion
@@ -119,16 +119,41 @@ public static class FactoryHelper
                 .SetResourceName("index")
                 .SetTitle("主页")
                 .AddPageMap("default", "default")
-                .AddPageMap("new", "new")
-                .AddPageMap("modify", "modify")
-                .AddPageMap("delete", "delete")
                 .AddField
                 (
                     new WebField()
                         .AddPlugs(new MainPagePlug())
-//                    .AddPlug(new LabelPlug("Email address", "for=\"exampleInputEmail1\""))
-//                    .AddPlug(new InputTextPlug("exampleInputEmail1", "form-control", "email", "placeholder=\"Enter email\""))
-//                    .InitPlugs()
+                );
+            CacheModel(model);
+        }
+        if (!CheckCache("user"))
+        {
+            DslClassBase model = new DslClassBase()
+                .SetResourceName("user")
+                .SetTitle("用户")
+                .AddPageMap("new", "new")
+                .AddPageMap("modify", "modify")
+                .AddPageMap("delete", "delete")
+                .AddPageMap("search", "search")
+                .AddField
+                (
+                    new WebField()
+                        .AddPlugs(new InputTextPlug("用户名"))
+                )
+                .AddField
+                (
+                    new WebField()
+                        .AddPlugs(new InputEmailPlug("邮箱"))
+                )
+                .AddField
+                (
+                    new WebField()
+                        .AddPlugs(new InputPasswordPlug("密码"))
+                )
+                .AddField
+                (
+                    new WebField()
+                        .AddPlugs(new SubmitButtonPlug("提交"))
                 );
             CacheModel(model);
         }
