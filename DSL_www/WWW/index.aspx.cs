@@ -29,6 +29,18 @@ public partial class WWW_index : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Request.HttpMethod.ToLower() == "post")
+        {
+            DoPost();
+        }
+        else
+        {
+            DoGet();
+        }
+    }
+
+    private void DoGet()
+    {
         string routeResource = RouteResource;
         string routeAction = RouteAction;
         string routeId = RouteId;
@@ -79,6 +91,16 @@ public partial class WWW_index : Page
             File.ReadAllText(string.Format("{0}WWW/View/Default/{1}.cshtml", strPath, mainObj.GetPageMap(routeAction)));
         //        test = Razor.Parse(template, new {Name = mainObj.Test.InputName});
         test = Razor.Parse(template, new {M = mainObj, L = layoutObj, Help = helper});
+    }
+
+    private void DoPost()
+    {
+        string routeResource = RouteResource;
+        string routeAction = RouteAction;
+        string routeId = RouteId;
+
+        var mainObj = FactoryHelper.Create(routeResource);
+        mainObj.
     }
 }
 

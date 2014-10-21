@@ -46,6 +46,17 @@ namespace DSL_lib
             return sb.ToString();
         }
 
+        public string HandlePost(string eventname)
+        {
+            var sb = new StringBuilder();
+            foreach (Field field in Fields)
+            {
+                sb.Append(field.Write(eventname));
+                field.OutPutStream = "";
+            }
+            return sb.ToString();
+        }
+
         public string GetPageMap(string action)
         {
             return _pageMap.ContainsKey(action) ? _pageMap[action] : "error";
@@ -64,6 +75,11 @@ namespace DSL_lib
         public string GetLayout()
         {
             return _pageLayout;
+        }
+
+        public IList<string> GetAllPageMapKey()
+        {
+            return _pageMap.Keys.ToList();
         }
 
         #region 连贯接口
@@ -100,10 +116,5 @@ namespace DSL_lib
         }
 
         #endregion
-
-        public IList<string> GetAllPageMapKey()
-        {
-            return _pageMap.Keys.ToList();
-        }
     }
 }
