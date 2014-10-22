@@ -100,7 +100,10 @@ public partial class WWW_index : Page
         string routeId = RouteId;
 
         var mainObj = FactoryHelper.Create(routeResource);
-        mainObj.
+        var result = mainObj.Handle("DoPost");
+        Response.Clear();
+        Response.Write(result);
+        Response.End();
     }
 }
 
@@ -159,17 +162,17 @@ public static class FactoryHelper
                 .AddPageMap("search", "search")
                 .AddField
                 (
-                    new WebField()
+                    new WebField("MemberName")
                         .AddPlugs(new InputTextPlug("用户名"))
                 )
                 .AddField
                 (
-                    new WebField()
+                    new WebField("Email")
                         .AddPlugs(new InputEmailPlug("邮箱"))
                 )
                 .AddField
                 (
-                    new WebField()
+                    new WebField("Pwd")
                         .AddPlugs(new InputPasswordPlug("密码"))
                 )
                 .AddField

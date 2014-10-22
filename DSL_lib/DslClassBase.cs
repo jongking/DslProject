@@ -35,24 +35,12 @@ namespace DSL_lib
             set { _pageMap = value; }
         }
 
-        public string RenderFields(string eventname)
+        public string Handle(string eventname)
         {
             var sb = new StringBuilder();
-            foreach (Field field in Fields)
+            foreach (var field in Fields)
             {
-                sb.Append(field.Write(eventname));
-                field.OutPutStream = "";
-            }
-            return sb.ToString();
-        }
-
-        public string HandlePost(string eventname)
-        {
-            var sb = new StringBuilder();
-            foreach (Field field in Fields)
-            {
-                sb.Append(field.Write(eventname));
-                field.OutPutStream = "";
+                field.Handle(eventname.ToLower(), sb);
             }
             return sb.ToString();
         }

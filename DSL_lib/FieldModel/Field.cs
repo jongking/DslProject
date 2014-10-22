@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace DSL_lib.FieldModel
 {
@@ -15,12 +16,12 @@ namespace DSL_lib.FieldModel
             get { return _attribute; }
         }
 
-        private string _outPutStream;
-        public string OutPutStream
-        {
-            set { _outPutStream = value; }
-            get { return _outPutStream; }
-        }
+//        private string _outPutStream;
+//        public string OutPutStream
+//        {
+//            set { _outPutStream = value; }
+//            get { return _outPutStream; }
+//        }
 
         public DslClassBase Dslmodel
         {
@@ -34,9 +35,9 @@ namespace DSL_lib.FieldModel
         }
 
 
-        public virtual string Write(string eventName)
+        public virtual void Handle(string eventName, StringBuilder sb)
         {
-            return _outPutStream;
+            sb.Append("");
         }
     }
 }

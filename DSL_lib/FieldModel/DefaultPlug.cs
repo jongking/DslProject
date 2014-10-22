@@ -6,26 +6,25 @@ using DSL_lib.Helper;
 
 namespace DSL_lib.FieldModel
 {
-    public class BasePlug : IPlug<WebField, DslEvent>
+    public class BasePlug : IPlug<WebField>
     {
         public virtual void InitPlug(WebField field)
         {
         }
 
-        public virtual void Handle(DslEvent eventName, WebField field)
+        public virtual void Handle(string eventName, WebField field, StringBuilder Out)
         {
             switch (eventName)
             {
-                case DslEvent.NoThisEvent:
-                    NoThisEventHandle(field, eventName);
+                default:
+                    NoThisEventHandle(field, eventName, Out);
                     break;
             }
         }
 
-        protected void NoThisEventHandle(WebField field, DslEvent eventName)
+        protected void NoThisEventHandle(WebField field, string eventName, StringBuilder Out)
         {
-            field.OutPutStream = string.Format("<script>console.log('{1}: 没有处理 {0}')</script>", eventName.ToString(), field.Dslmodel.ResourceName);
-//            field.OutPutStream = "<script>location.href='./error'</script>";
+            Out.AppendFormat("<script>console.log('{1}: 没有处理 {0}')</script>", eventName, field.Dslmodel.ResourceName);
         }
     }
 
@@ -39,15 +38,15 @@ namespace DSL_lib.FieldModel
                 .AddMenuList("search", "查询");
         }
 
-        public override void Handle(DslEvent eventName, WebField field)
+        public override void Handle(string eventName, WebField field, StringBuilder Out)
         {
             switch (eventName)
             {
-                case DslEvent.GetMainMenu:
-                    GetMainMenuHandle(field);
+                case "getmainmenu":
+                    GetMainMenuHandle(field, Out);
                     break;
                 default:
-                    base.Handle(eventName, field);
+                    base.Handle(eventName, field, Out);
                     break;
             }
         }
@@ -60,7 +59,7 @@ namespace DSL_lib.FieldModel
 
         private Dictionary<string, string> _transactionlist = new Dictionary<string, string>();
 
-        private void GetMainMenuHandle(WebField field)
+        private void GetMainMenuHandle(WebField field, StringBuilder Out)
         {
             var sb = new StringBuilder();
             sb.Append("<ul id='menuDiv' class='nav navbar-nav'>");
@@ -85,7 +84,7 @@ namespace DSL_lib.FieldModel
                 sb.Append("</ul></li>");
             }
             sb.Append("</ul>");
-            field.OutPutStream += sb.ToString();
+            Out.Append(sb);
         }
 
         private bool HasPage(IEnumerable<string> pagelist)
@@ -97,134 +96,123 @@ namespace DSL_lib.FieldModel
     public class InputEmailPlug : BasePlug
     {
         private string _textName = "";
-        private string _inputId = "";
         private string _placeholder;
 
-        public InputEmailPlug(string textName, string inputId = "InputEmail", string placeholder = "")
+        public InputEmailPlug(string textName, string placeholder = "")
         {
             _textName = textName;
-            _inputId = inputId;
             this._placeholder = placeholder;
         }
 
-        public override void Handle(DslEvent eventName, WebField field)
+        public override void Handle(string eventName, WebField field, StringBuilder Out)
         {
             switch (eventName)
             {
-                case DslEvent.NewContext:
-                    DefaultHandle(field);
+                case "newcontext":
+                    DefaultHandle(field, Out);
                     break;
                 default:
-                    base.Handle(eventName, field);
+                    base.Handle(eventName, field, Out);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field)
+        private void DefaultHandle(WebField field, StringBuilder Out)
         {
-            string result = "";
-            result += string.Format("<div class='form-group'><label for='{1}'>{0}</label><input type='email' class='form-control' id='{1}' placeholder='{2}'></div>", _textName, _inputId, _placeholder);
-            field.OutPutStream += result;
+            Out.AppendFormat("<div class='form-group'><label for='{1}'>{0}</label><input type='email' class='form-control' id='{1}' placeholder='{2}'></div>"
+                , _textName, field.GetAttribute(ContextCell.FieldName), _placeholder);
         }
     }
 
     public class InputTextPlug : BasePlug
     {
         private string _textName = "";
-        private string _inputId = "";
         private string _placeholder;
 
-        public InputTextPlug(string textName, string inputId = "InputText", string placeholder = "")
+        public InputTextPlug(string textName, string placeholder = "")
         {
             _textName = textName;
-            _inputId = inputId;
             this._placeholder = placeholder;
         }
 
-        public override void Handle(DslEvent eventName, WebField field)
+        public override void Handle(string eventName, WebField field, StringBuilder Out)
         {
             switch (eventName)
             {
-                case DslEvent.NewContext:
-                    DefaultHandle(field);
+                case "newcontext":
+                    DefaultHandle(field, Out);
                     break;
                 default:
-                    base.Handle(eventName, field);
+                    base.Handle(eventName, field, Out);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field)
+        private void DefaultHandle(WebField field, StringBuilder Out)
         {
-            string result = "";
-            result += string.Format("<div class='form-group'><label for='{1}'>{0}</label><input type='text' class='form-control' id='{1}' placeholder='{2}'></div>", _textName, _inputId, _placeholder);
-            field.OutPutStream += result;
+            Out.AppendFormat(
+                "<div class='form-group'><label for='{1}'>{0}</label><input type='text' class='form-control' id='{1}' placeholder='{2}'></div>",
+                _textName, field.GetAttribute(ContextCell.FieldName), _placeholder);
         }
     }
 
     public class InputPasswordPlug : BasePlug
     {
         private string _textName = "";
-        private string _inputId = "";
         private string _placeholder;
 
-        public InputPasswordPlug(string textName, string inputId = "InputPassword", string placeholder = "")
+        public InputPasswordPlug(string textName, string placeholder = "")
         {
             _textName = textName;
-            _inputId = inputId;
             this._placeholder = placeholder;
         }
 
-        public override void Handle(DslEvent eventName, WebField field)
+        public override void Handle(string eventName, WebField field, StringBuilder Out)
         {
             switch (eventName)
             {
-                case DslEvent.NewContext:
-                    DefaultHandle(field);
+                case "newcontext":
+                    DefaultHandle(field, Out);
                     break;
                 default:
-                    base.Handle(eventName, field);
+                    base.Handle(eventName, field, Out);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field)
+        private void DefaultHandle(WebField field, StringBuilder Out)
         {
-            string result = "";
-            result += string.Format("<div class='form-group'><label for='{1}'>{0}</label><input type='password' class='form-control' id='{1}' placeholder='{2}'></div>", _textName, _inputId, _placeholder);
-            field.OutPutStream += result;
+            Out.AppendFormat(
+                "<div class='form-group'><label for='{1}'>{0}</label><input type='password' class='form-control' id='{1}' placeholder='{2}'></div>",
+                _textName, field.GetAttribute(ContextCell.FieldName), _placeholder);
         }
     }
 
     public class SubmitButtonPlug : BasePlug
     {
         private string _textName = "";
-        private string _inputId = "";
 
-        public SubmitButtonPlug(string textName, string inputId = "SubmitButton")
+        public SubmitButtonPlug(string textName)
         {
             _textName = textName;
-            _inputId = inputId;
         }
 
-        public override void Handle(DslEvent eventName, WebField field)
+        public override void Handle(string eventName, WebField field, StringBuilder Out)
         {
             switch (eventName)
             {
-                case DslEvent.NewContext:
-                    DefaultHandle(field);
+                case "newcontext":
+                    DefaultHandle(field, Out);
                     break;
                 default:
-                    base.Handle(eventName, field);
+                    base.Handle(eventName, field, Out);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field)
+        private void DefaultHandle(WebField field, StringBuilder Out)
         {
-            string result = "";
-            result += string.Format("<button type='submit' class='btn btn-primary' id='{1}'>{0}</button>", _textName, _inputId);
-            field.OutPutStream += result;
+            Out.AppendFormat("<button type='submit' class='btn btn-primary' id='{1}'>{0}</button>", _textName, field.GetAttribute(ContextCell.FieldName));
         }
     }
 }

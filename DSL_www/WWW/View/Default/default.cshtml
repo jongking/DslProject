@@ -17,7 +17,7 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        @Model.Help.HtmlRaw(Model.M.RenderFields("mainmenu"))
+        @Model.Help.HtmlRaw(Model.M.Handle("getmainmenu"))
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </div>
