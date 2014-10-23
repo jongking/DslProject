@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -55,11 +56,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DslClassBase.cs" />
+    <Compile Include="FieldModel\DbField.cs" />
     <Compile Include="FieldModel\DefaultPlug.cs" />
     <Compile Include="FieldModel\Field.cs" />
     <Compile Include="FieldModel\WebField.cs" />
     <Compile Include="FieldModel\IPlug.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
+    <Compile Include="Helper\DbHelper.cs" />
     <Compile Include="Helper\DslException.cs" />
     <Compile Include="Helper\GenHelper.cs" />
     <Compile Include="Helper\RazorHelper.cs" />

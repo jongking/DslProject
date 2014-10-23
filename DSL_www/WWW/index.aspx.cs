@@ -100,7 +100,7 @@ public partial class WWW_index : Page
         string routeId = RouteId;
 
         var mainObj = FactoryHelper.Create(routeResource);
-        var result = mainObj.Handle("DoPost");
+        var result = mainObj.Handle(string.Format("DoPost/{0}/{1}", routeAction, routeId));
         Response.Clear();
         Response.Write(result);
         Response.End();
@@ -164,16 +164,19 @@ public static class FactoryHelper
                 (
                     new WebField("MemberName")
                         .AddPlugs(new InputTextPlug("用户名"))
+                        .AddPlugs(new DbField("User"))
                 )
                 .AddField
                 (
                     new WebField("Email")
                         .AddPlugs(new InputEmailPlug("邮箱"))
+                        .AddPlugs(new DbField("User"))
                 )
                 .AddField
                 (
                     new WebField("Pwd")
                         .AddPlugs(new InputPasswordPlug("密码"))
+                        .AddPlugs(new DbField("User"))
                 )
                 .AddField
                 (

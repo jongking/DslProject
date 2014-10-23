@@ -1,29 +1,28 @@
-﻿
-@{ Layout = Model.L.ResourceName; }
+﻿@{ Layout = Model.L.ResourceName; }
 
-<div class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-          <!-- 在屏幕宽度不够时显示下拉选择 -->
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/index/default">主页</a>
-      </div>
+<div class="navbar navbar-default" role="navigation" id="TopMenu">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <!-- 在屏幕宽度不够时显示下拉选择 -->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index/default">主页</a>
+        </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        @Model.Help.HtmlRaw(Model.M.Handle("getmainmenu"))
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            @Model.Help.HtmlRaw(Model.M.Handle("getmainmenu"))
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </div>
 
 
-<div class="container-fluid" style="height: 100%;">
-    <iframe id="MainContain" name="MainContain" src="about:blank" class="container-fluid" style="height: 80%; width: 100%; border: 1px solid red;">
+<div class="container" style="" id="MainDiv">
+    <iframe id="MainContain" name="MainContain" src="about:blank"  onload="javascript:dyniframesize('MainContain');"  style="border: 0px solid red; width: 100%;">
     </iframe>
 </div>

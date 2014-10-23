@@ -1,9 +1,8 @@
-﻿
-@{
+﻿@{
     Layout = Model.L.ResourceName;
 }
-
-<form role="form" action="./new" method="post">
-    @Model.Help.HtmlRaw(Model.M.Handle("newcontext"))
-</form>
-
+<div class="container-fluid" style="height:100%;">
+    <form role="form" action="./new" method="post">
+        @Model.Help.HtmlRaw(Model.M.Handle("newcontext"))
+    </form>
+</div>
