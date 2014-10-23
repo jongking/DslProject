@@ -35,9 +35,9 @@ namespace DSL_lib.FieldModel
         }
 
 
-        public virtual void Handle(string eventName, StringBuilder sb)
+        public virtual void Handle(string eventName, EventContext eventContext)
         {
-            sb.Append("");
+            eventContext.Output.Append("");
         }
     }
 }

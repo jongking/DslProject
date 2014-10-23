@@ -23,11 +23,11 @@ namespace DSL_lib.FieldModel
             return this;
         }
 
-        public override void Handle(string eventName, StringBuilder sb)
+        public override void Handle(string eventName, EventContext eventContext)
         {
             foreach (var plug in Plugs)
             {
-                plug.Handle(eventName, this, sb);
+                plug.Handle(eventName, this, eventContext);
             }
         }
 
@@ -64,38 +64,5 @@ namespace DSL_lib.FieldModel
             return AddAttr((int) key, value);
         }
 
-//        private static DslEvent TransitionStrToEnum(string eventName)
-//        {
-//            switch (eventName)
-//            {
-//                case "default":
-//                    return DslEvent.Default;
-//                case "mainmenu":
-//                    return DslEvent.GetMainMenu;
-//                case "newcontext":
-//                    return DslEvent.NewContext;
-//                default:
-//                    return DslEvent.NoThisEvent;
-//            }
-//        }
-
-//        private string A(ContextCell key)
-//        {
-//            return GetAttribute((int)key);
-//        }
-//
-//        private string A(ContextCell key, string attrName)
-//        {
-//            string attr = GetAttribute((int)key);
-//            return attr.Length > 0 ? string.Format("{0}='{1}'", attrName, attr) : "";
-//        }
-//
-//        public void InitPlug(HtmlField field)
-//        {
-//        }
-//
-//        public void Handle(DslEvent eventName, HtmlField field)
-//        {
-//        }
     }
 }

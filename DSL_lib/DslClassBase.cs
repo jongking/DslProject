@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using DSL_lib.FieldModel;
+using DSL_lib.Helper;
 
 namespace DSL_lib
 {
-
     public class DslClassBase
     {
         // 记录资源名(Resource)
@@ -37,12 +37,42 @@ namespace DSL_lib
 
         public string Handle(string eventname)
         {
-            var sb = new StringBuilder();
-            foreach (var field in Fields)
+            EventContext eventContext = null;
+            try
             {
-                field.Handle(eventname.ToLower(), sb);
+                eventContext = new EventContext(false);
+                foreach (Field field in Fields)
+                {
+                    field.Handle(eventname.ToLower(), eventContext);
+                }
+                eventContext.EndSqlConection(true);
             }
-            return sb.ToString();
+            catch (Exception ex)
+            {
+                if (eventContext != null) eventContext.EndSqlConection(false);
+                return ex.Message;
+            }
+            return eventContext.Output.ToString();    
+        }
+
+        public string HandleWithDb(string eventname)
+        {
+            EventContext eventContext = null;
+            try
+            {
+                eventContext = new EventContext(true);
+                foreach (Field field in Fields)
+                {
+                    field.Handle(eventname.ToLower(), eventContext);
+                }
+                eventContext.EndSqlConection(true);
+            }
+            catch (Exception ex)
+            {
+                if (eventContext != null) eventContext.EndSqlConection(false);
+                return ex.Message;
+            }
+            return eventContext.Output.ToString();
         }
 
         public string GetPageMap(string action)
@@ -104,5 +134,52 @@ namespace DSL_lib
         }
 
         #endregion
+    }
+
+    /// <summary>
+    ///     事件处理上下文
+    /// </summary>
+    public class EventContext
+    {
+        public StringBuilder Output;
+
+        public SqlConnection SqlCn;
+        public SqlTransaction SqlTc;
+
+        public EventContext(bool withdb)
+        {
+            Output = new StringBuilder();
+
+            if (!withdb) return;
+            SqlCn = DbHelper.GetConnection();
+            SqlTc = DbHelper.StartTransaction(SqlCn);
+        }
+
+        public EventContext(SqlConnection sqlCn)
+        {
+            Output = new StringBuilder();
+            SqlCn = sqlCn;
+            SqlTc = DbHelper.StartTransaction(SqlCn);
+        }
+
+        public EventContext(SqlConnection sqlCn, SqlTransaction sqlTc)
+        {
+            Output = new StringBuilder();
+            SqlCn = sqlCn;
+            SqlTc = sqlTc;
+        }
+
+        public void EndSqlConection(bool isok)
+        {
+            if (isok)
+            {
+                DbHelper.CommitTransaction(SqlTc);
+            }
+            else
+            {
+                DbHelper.RollBackTransaction(SqlTc);
+            }
+            DbHelper.CloseConnection(SqlCn);
+        }
     }
 }

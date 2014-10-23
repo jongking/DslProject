@@ -12,19 +12,19 @@ namespace DSL_lib.FieldModel
         {
         }
 
-        public virtual void Handle(string eventName, WebField field, StringBuilder Out)
+        public virtual void Handle(string eventName, WebField field, EventContext eventContext)
         {
             switch (eventName)
             {
                 default:
-                    NoThisEventHandle(field, eventName, Out);
+                    NoThisEventHandle(field, eventName, eventContext);
                     break;
             }
         }
 
-        protected void NoThisEventHandle(WebField field, string eventName, StringBuilder Out)
+        protected void NoThisEventHandle(WebField field, string eventName, EventContext eventContext)
         {
-            Out.AppendFormat("<script>console.log('{1}: 没有处理 {0}')</script>", eventName, field.Dslmodel.ResourceName);
+            eventContext.Output.AppendFormat("<script>console.log('{1}: 没有处理 {0}')</script>", eventName, field.Dslmodel.ResourceName);
         }
     }
 
@@ -38,15 +38,15 @@ namespace DSL_lib.FieldModel
                 .AddMenuList("search", "查询");
         }
 
-        public override void Handle(string eventName, WebField field, StringBuilder Out)
+        public override void Handle(string eventName, WebField field, EventContext eventContext)
         {
             switch (eventName)
             {
                 case "getmainmenu":
-                    GetMainMenuHandle(field, Out);
+                    GetMainMenuHandle(field, eventContext);
                     break;
                 default:
-                    base.Handle(eventName, field, Out);
+                    base.Handle(eventName, field, eventContext);
                     break;
             }
         }
@@ -59,7 +59,7 @@ namespace DSL_lib.FieldModel
 
         private Dictionary<string, string> _transactionlist = new Dictionary<string, string>();
 
-        private void GetMainMenuHandle(WebField field, StringBuilder Out)
+        private void GetMainMenuHandle(WebField field, EventContext eventContext)
         {
             var sb = new StringBuilder();
             sb.Append("<ul id='menuDiv' class='nav navbar-nav'>");
@@ -84,7 +84,7 @@ namespace DSL_lib.FieldModel
                 sb.Append("</ul></li>");
             }
             sb.Append("</ul>");
-            Out.Append(sb);
+            eventContext.Output.Append(sb);
         }
 
         private bool HasPage(IEnumerable<string> pagelist)
@@ -104,22 +104,22 @@ namespace DSL_lib.FieldModel
             this._placeholder = placeholder;
         }
 
-        public override void Handle(string eventName, WebField field, StringBuilder Out)
+        public override void Handle(string eventName, WebField field, EventContext eventContext)
         {
             switch (eventName)
             {
                 case "newcontext":
-                    DefaultHandle(field, Out);
+                    DefaultHandle(field, eventContext);
                     break;
                 default:
-                    base.Handle(eventName, field, Out);
+                    base.Handle(eventName, field, eventContext);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field, StringBuilder Out)
+        private void DefaultHandle(WebField field, EventContext eventContext)
         {
-            Out.AppendFormat("<div class='form-group'><label for='{1}'>{0}</label><input type='email' class='form-control' id='{1}' placeholder='{2}'></div>"
+            eventContext.Output.AppendFormat("<div class='form-group'><label for='{1}'>{0}</label><input type='email' class='form-control' id='{1}' placeholder='{2}'></div>"
                 , _textName, field.GetAttribute(ContextCell.FieldName), _placeholder);
         }
     }
@@ -135,22 +135,22 @@ namespace DSL_lib.FieldModel
             this._placeholder = placeholder;
         }
 
-        public override void Handle(string eventName, WebField field, StringBuilder Out)
+        public override void Handle(string eventName, WebField field, EventContext eventContext)
         {
             switch (eventName)
             {
                 case "newcontext":
-                    DefaultHandle(field, Out);
+                    DefaultHandle(field, eventContext);
                     break;
                 default:
-                    base.Handle(eventName, field, Out);
+                    base.Handle(eventName, field, eventContext);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field, StringBuilder Out)
+        private void DefaultHandle(WebField field, EventContext eventContext)
         {
-            Out.AppendFormat(
+            eventContext.Output.AppendFormat(
                 "<div class='form-group'><label for='{1}'>{0}</label><input type='text' class='form-control' id='{1}' placeholder='{2}'></div>",
                 _textName, field.GetAttribute(ContextCell.FieldName), _placeholder);
         }
@@ -167,22 +167,22 @@ namespace DSL_lib.FieldModel
             this._placeholder = placeholder;
         }
 
-        public override void Handle(string eventName, WebField field, StringBuilder Out)
+        public override void Handle(string eventName, WebField field, EventContext eventContext)
         {
             switch (eventName)
             {
                 case "newcontext":
-                    DefaultHandle(field, Out);
+                    DefaultHandle(field, eventContext);
                     break;
                 default:
-                    base.Handle(eventName, field, Out);
+                    base.Handle(eventName, field, eventContext);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field, StringBuilder Out)
+        private void DefaultHandle(WebField field, EventContext eventContext)
         {
-            Out.AppendFormat(
+            eventContext.Output.AppendFormat(
                 "<div class='form-group'><label for='{1}'>{0}</label><input type='password' class='form-control' id='{1}' placeholder='{2}'></div>",
                 _textName, field.GetAttribute(ContextCell.FieldName), _placeholder);
         }
@@ -197,22 +197,22 @@ namespace DSL_lib.FieldModel
             _textName = textName;
         }
 
-        public override void Handle(string eventName, WebField field, StringBuilder Out)
+        public override void Handle(string eventName, WebField field, EventContext eventContext)
         {
             switch (eventName)
             {
                 case "newcontext":
-                    DefaultHandle(field, Out);
+                    DefaultHandle(field, eventContext);
                     break;
                 default:
-                    base.Handle(eventName, field, Out);
+                    base.Handle(eventName, field, eventContext);
                     break;
             }
         }
 
-        private void DefaultHandle(WebField field, StringBuilder Out)
+        private void DefaultHandle(WebField field, EventContext eventContext)
         {
-            Out.AppendFormat("<button type='submit' class='btn btn-primary' id='{1}'>{0}</button>", _textName, field.GetAttribute(ContextCell.FieldName));
+            eventContext.Output.AppendFormat("<button type='submit' class='btn btn-primary' id='{1}'>{0}</button>", _textName, field.GetAttribute(ContextCell.FieldName));
         }
     }
 }

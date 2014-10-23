@@ -15,22 +15,22 @@ namespace DSL_lib.FieldModel
             _tableName = tableName;
         }
 
-        public override void Handle(string eventName, WebField field, StringBuilder Out)
+        public override void Handle(string eventName, WebField field, EventContext eventContext)
         {
             switch (eventName)
             {
                 case "dopost/new/":
-                    PostHandle(field, Out);
+                    PostHandle(field, eventContext);
                     break;
                 default:
-                    base.Handle(eventName, field, Out);
+                    base.Handle(eventName, field, eventContext);
                     break;
             }
         }
 
-        private void PostHandle(WebField field, StringBuilder Out)
+        private void PostHandle(WebField field, EventContext eventContext)
         {
-            Out.Append("DbField:PostHandle<br/>");
+            eventContext.Output.Append("DbField:PostHandle<br/>");
         }
     }
 }

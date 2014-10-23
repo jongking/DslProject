@@ -13,6 +13,6 @@ namespace DSL_lib.FieldModel
     {
         void InitPlug(FieldClass field);
 
-        void Handle(string eventName, FieldClass field, StringBuilder Out);
+        void Handle(string eventName, FieldClass field, EventContext eventContext);
     }
 }
