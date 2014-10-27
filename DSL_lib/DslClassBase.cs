@@ -45,11 +45,11 @@ namespace DSL_lib
                 {
                     field.Handle(eventname.ToLower(), eventContext);
                 }
-                eventContext.EndSqlConection(true);
+                eventContext.Clear(true);
             }
             catch (Exception ex)
             {
-                if (eventContext != null) eventContext.EndSqlConection(false);
+                if (eventContext != null) eventContext.Clear(false);
                 return ex.Message;
             }
             return eventContext.Output.ToString();    
@@ -65,11 +65,31 @@ namespace DSL_lib
                 {
                     field.Handle(eventname.ToLower(), eventContext);
                 }
-                eventContext.EndSqlConection(true);
+                eventContext.Clear(true);
             }
             catch (Exception ex)
             {
-                if (eventContext != null) eventContext.EndSqlConection(false);
+                if (eventContext != null) eventContext.Clear(false);
+                return ex.Message;
+            }
+            return eventContext.Output.ToString();
+        }
+
+        public string HandleWithDbAndRequest(string eventname)
+        {
+            EventContext eventContext = null;
+            try
+            {
+                eventContext = new EventContext(true);
+                foreach (Field field in Fields)
+                {
+                    field.Handle(eventname.ToLower(), eventContext);
+                }
+                eventContext.Clear(true);
+            }
+            catch (Exception ex)
+            {
+                if (eventContext != null) eventContext.Clear(false);
                 return ex.Message;
             }
             return eventContext.Output.ToString();
@@ -169,17 +189,22 @@ namespace DSL_lib
             SqlTc = sqlTc;
         }
 
-        public void EndSqlConection(bool isok)
+        public void Clear(bool isok)
         {
-            if (isok)
+            Output.Clear();
+
+            if (SqlCn != null)
             {
-                DbHelper.CommitTransaction(SqlTc);
+                if (isok)
+                {
+                    DbHelper.CommitTransaction(SqlTc);
+                }
+                else
+                {
+                    DbHelper.RollBackTransaction(SqlTc);
+                }
+                DbHelper.CloseConnection(SqlCn);
             }
-            else
-            {
-                DbHelper.RollBackTransaction(SqlTc);
-            }
-            DbHelper.CloseConnection(SqlCn);
         }
     }
 }

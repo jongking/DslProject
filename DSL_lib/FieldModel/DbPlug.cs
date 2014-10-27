@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DSL_lib.FieldModel
 {
-    public class DbField : BasePlug
+    public class DbPlug : BasePlug
     {
         private string _tableName = "";
 
-        public DbField(string tableName)
+        public DbPlug(string tableName)
         {
             _tableName = tableName;
         }
@@ -30,7 +30,7 @@ namespace DSL_lib.FieldModel
 
         private void PostHandle(WebField field, EventContext eventContext)
         {
-            eventContext.Output.Append("DbField:PostHandle<br/>");
+            eventContext.Output.Append("DbPlug:PostHandle<br/>");
         }
     }
 }

@@ -164,19 +164,19 @@ public static class FactoryHelper
                 (
                     new WebField("MemberName")
                         .AddPlugs(new InputTextPlug("用户名"))
-                        .AddPlugs(new DbField("User"))
+                        .AddPlugs(new DbPlug("User"))
                 )
                 .AddField
                 (
                     new WebField("Email")
                         .AddPlugs(new InputEmailPlug("邮箱"))
-                        .AddPlugs(new DbField("User"))
+                        .AddPlugs(new DbPlug("User"))
                 )
                 .AddField
                 (
                     new WebField("Pwd")
                         .AddPlugs(new InputPasswordPlug("密码"))
-                        .AddPlugs(new DbField("User"))
+                        .AddPlugs(new DbPlug("User"))
                 )
                 .AddField
                 (
