@@ -98,7 +98,7 @@ public partial class WWW_index : Page
         string routeResource = RouteResource;
         string routeAction = RouteAction;
         string routeId = RouteId;
-
+        Request;
         var mainObj = FactoryHelper.Create(routeResource);
         var result = mainObj.Handle(string.Format("DoPost/{0}/{1}", routeAction, routeId));
         Response.Clear();

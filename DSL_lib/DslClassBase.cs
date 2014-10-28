@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Web;
 using DSL_lib.FieldModel;
 using DSL_lib.Helper;
 
@@ -12,8 +13,11 @@ namespace DSL_lib
     {
         // 记录资源名(Resource)
         private readonly IList<Field> _fields = new List<Field>();
-        private string _pageLayout = "_layout";
+        protected IList<IPlug<Field>> begin_Plugs = new List<IPlug<Field>>();
+        protected IList<IPlug<Field>> end_Plugs = new List<IPlug<Field>>();
         private Dictionary<string, string> _pageMap = new Dictionary<string, string>();
+
+        private string _pageLayout = "_layout";
         private string _pageTitle = "还没有题目";
         private string _resourceName;
 
@@ -43,7 +47,9 @@ namespace DSL_lib
                 eventContext = new EventContext(false);
                 foreach (Field field in Fields)
                 {
+                    HandleBegin(eventname, field, eventContext);
                     field.Handle(eventname.ToLower(), eventContext);
+                    HandleEnd(eventname, field, eventContext);
                 }
                 eventContext.Clear(true);
             }
@@ -63,7 +69,9 @@ namespace DSL_lib
                 eventContext = new EventContext(true);
                 foreach (Field field in Fields)
                 {
+                    HandleBegin(eventname, field, eventContext);
                     field.Handle(eventname.ToLower(), eventContext);
+                    HandleEnd(eventname, field, eventContext);
                 }
                 eventContext.Clear(true);
             }
@@ -81,6 +89,7 @@ namespace DSL_lib
             try
             {
                 eventContext = new EventContext(true);
+
                 foreach (Field field in Fields)
                 {
                     field.Handle(eventname.ToLower(), eventContext);
@@ -153,7 +162,40 @@ namespace DSL_lib
             return this;
         }
 
+        public DslClassBase AddBeginPlug(IPlug<Field> plug)
+        {
+            begin_Plugs.Add(plug);
+            return this;
+        }
+
+        public DslClassBase AddEndPlug(IPlug<Field> plug)
+        {
+            end_Plugs.Add(plug);
+            return this;
+        }
         #endregion
+
+        private void HandleEnd(string eventname, Field field, EventContext eventContext)
+        {
+            if (end_Plugs.Count > 0)
+            {
+                foreach (var plug in end_Plugs)
+                {
+                    plug.Handle(eventname.ToLower(), field, eventContext);
+                }
+            }
+        }
+
+        private void HandleBegin(string eventname, Field field, EventContext eventContext)
+        {
+            if (begin_Plugs.Count > 0)
+            {
+                foreach (var plug in begin_Plugs)
+                {
+                    plug.Handle(eventname.ToLower(), field, eventContext);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -163,28 +205,36 @@ namespace DSL_lib
     {
         public StringBuilder Output;
 
+        public HttpRequest Request;
+
         public SqlConnection SqlCn;
         public SqlTransaction SqlTc;
 
-        public EventContext(bool withdb)
+
+        public EventContext(bool withdb, HttpRequest request)
         {
             Output = new StringBuilder();
+            Request = request;
 
             if (!withdb) return;
             SqlCn = DbHelper.GetConnection();
             SqlTc = DbHelper.StartTransaction(SqlCn);
         }
 
-        public EventContext(SqlConnection sqlCn)
+        public EventContext(SqlConnection sqlCn, HttpRequest request)
         {
             Output = new StringBuilder();
+            Request = request;
+
             SqlCn = sqlCn;
             SqlTc = DbHelper.StartTransaction(SqlCn);
         }
 
-        public EventContext(SqlConnection sqlCn, SqlTransaction sqlTc)
+        public EventContext(SqlConnection sqlCn, SqlTransaction sqlTc, HttpRequest request)
         {
             Output = new StringBuilder();
+            Request = request;
+
             SqlCn = sqlCn;
             SqlTc = sqlTc;
         }
@@ -192,6 +242,7 @@ namespace DSL_lib
         public void Clear(bool isok)
         {
             Output.Clear();
+            Request = null;
 
             if (SqlCn != null)
             {
